@@ -1,0 +1,12 @@
+plainyr-rev BibTeX style
+========================
+
+This BibTeX style formats bibliographic entries like the plain style
+but sorts them in reverse chronological order, i.e., the newest 
+references are listed first.
+
+The style is almost identical to plainyr.bst, but changes only the sorting
+order.
+
+Author: Christian Plessl <christian@plesslweb.ch>
+License: Same license as the plainyr.bst style
