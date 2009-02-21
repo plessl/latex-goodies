@@ -1160,20 +1160,7 @@ FUNCTION {editor.organization.sort}
 }
 
 FUNCTION {presort}
-{ type$ "book" =
-  type$ "inbook" =
-  or
-    'author.editor.sort
-    { type$ "proceedings" =
-        'editor.organization.sort
-        { type$ "manual" =
-            'author.organization.sort
-            'year.sort
-          if$
-        }
-      if$
-    }
-  if$
+{ year.sort
   "    "
   *
   month field.or.null
@@ -1192,6 +1179,7 @@ FUNCTION {presort}
   #1 entry.max$ substring$
   'sort.key$ :=
 }
+
 
 ITERATE {presort}
 
