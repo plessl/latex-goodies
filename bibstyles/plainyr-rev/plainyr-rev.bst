@@ -8,6 +8,14 @@
 %% The style is almost identical to plainyr.bst, but changes only the sorting
 %% order.
 
+%% Changelog
+%% ---------------------------------------------------------------------------------
+%% 21-02-2009
+%% Modified BibTeX style to consider also the month field when sorting BibTeX entries.
+%%
+%% contributed by João Gomes, jvpgomes at gmail com, http://penhas.di.ubi.pt/~jgomes
+%% ---------------------------------------------------------------------------------
+
 %% /usr/local/lib/tex/bibtex/plainyr.bst, Mon Jun 29 08:06:48 1992
 %% Edit by Nelson H. F. Beebe <beebe@plot79.math.utah.edu>
 %% I've called this posting plainyr instead of the author's datasort
@@ -986,6 +994,83 @@ FUNCTION {sort.format.names}
   while$
 }
 
+FUNCTION {sort.format.month}
+{ 't :=
+  t #1 #3 substring$ "Jan" =
+  t #1 #3 substring$ "jan" =
+  or
+  { "01" }
+    { t #1 #3 substring$ "Feb" =
+      t #1 #3 substring$ "feb" =
+      or
+      { "02" }
+      { t #1 #3 substring$ "Mar" =
+        t #1 #3 substring$ "mar" =
+        or
+        { "03" }
+        { t #1 #3 substring$ "Apr" =
+          t #1 #3 substring$ "apr" =
+          or
+          { "04" }
+          { t #1 #3 substring$ "May" =
+            t #1 #3 substring$ "may" =
+            or
+            { "05" }
+            { t #1 #3 substring$ "Jun" =
+              t #1 #3 substring$ "jun" =
+              or
+              { "06" }
+              { t #1 #3 substring$ "Jul" =
+                t #1 #3 substring$ "jul" =
+                or
+                { "07" }
+                { t #1 #3 substring$ "Aug" =
+                  t #1 #3 substring$ "aug" =
+                  or
+                  { "08" }
+                  { t #1 #3 substring$ "Sep" =
+                    t #1 #3 substring$ "sep" =
+                    or
+                    { "09" }
+                    { t #1 #3 substring$ "Oct" =
+                      t #1 #3 substring$ "oct" =
+                      or
+                      { "10" }
+                      { t #1 #3 substring$ "Nov" =
+                        t #1 #3 substring$ "nov" =
+                        or
+                        { "11" }
+                        { t #1 #3 substring$ "Dec" =
+                          t #1 #3 substring$ "dec" =
+                          or
+                          { "12" }
+                          { t } % No match
+                        if$
+                        }
+                      if$
+                      }
+                    if$
+                    }
+                  if$
+                  }
+                if$
+                }
+              if$
+              }
+            if$
+            }
+          if$
+          }
+        if$
+        }
+      if$
+      }
+    if$
+    }
+  if$
+ 
+}
+ 
 FUNCTION {sort.format.title}
 { 't :=
   "A " #2
@@ -1091,6 +1176,11 @@ FUNCTION {presort}
   if$
   "    "
   *
+  month field.or.null
+  sort.format.month
+  *
+  " "
+  *
   author field.or.null
   sort.format.names
   *
@@ -1153,3 +1243,4 @@ FUNCTION {end.bib}
 }
 
 EXECUTE {end.bib}
+
