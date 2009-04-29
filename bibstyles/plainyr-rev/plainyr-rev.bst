@@ -1219,7 +1219,9 @@ FUNCTION {reverse.year}
 }
 
 FUNCTION {presort}
-{ reverse.year
+{
+  % sort by reverse year
+  reverse.year
   "    "
   *
   month field.or.null
@@ -1235,7 +1237,14 @@ FUNCTION {presort}
   title field.or.null
   sort.format.title
   *
+
+  % cite key for definitive disambiguation
+  cite$
+  *
+
+  % limit to maximum sort key length
   #1 entry.max$ substring$
+
   'sort.key$ :=
 }
 
