@@ -10,7 +10,12 @@
 
 %% Changelog
 %% ---------------------------------------------------------------------------------
-%% 21-02-2009
+%% 2009-04-29
+%% Modified BibTeX style to correctly sorting authors within a particular year, when
+%% no month is given or the month is the same
+%% Contributed by Hans Ekkehard Plesser, http://arken.umb.no/~plesser
+%% ---------------------------------------------------------------------------------
+%% 2009-02-21
 %% Modified BibTeX style to consider also the month field when sorting BibTeX entries.
 %%
 %% contributed by João Gomes, jvpgomes at gmail com, http://penhas.di.ubi.pt/~jgomes
@@ -1159,8 +1164,62 @@ FUNCTION {editor.organization.sort}
   if$
 }
 
+
+%% Code for reverse sorting
+%% Contributed by Hans Ekkehard Plesser, http://arken.umb.no/~plesser
+
+% Take year, assuming it is four-digit, convert to int, subtract from 9999
+% and return as string on stack. For reverse chronological sorting.
+INTEGERS { pos k res }
+STRINGS { tmpyear }
+FUNCTION {reverse.year}
+{
+ % ensure four digit year
+ year empty$ 
+   { "9999" "missing year in " cite$ * ", using 9999 for sorting" * warning$ }  
+   { year text.length$ #4 = 
+       { year }
+       { "9999" "year not 4-digit in " cite$ * ", using 9999 for sorting" * warning$ }
+     if$
+   }
+ if$
+ 'tmpyear :=
+
+ #0 'res := % will contain year as integer
+
+ #5 'pos := % index into year, we pre-decrement, will enter body with 4..1
+ { pos #1 - 'pos := pos }
+ { 
+   % extract digit at pos, convert to ASCII, subtract 48 -> 0..9, store in k
+   tmpyear pos #1 substring$ chr.to.int$ #48 - 'k :=
+
+   { k duplicate$ #1 - 'k := }
+   {
+     pos #1 = 
+       { res #1000 + 'res := }
+	{
+	  pos #2 =
+	    { res #100 + 'res := }
+	    {
+	      pos #3 =
+		{ res #10 + 'res := }
+		{ res #1 + 'res := }
+	      if$ 
+	    }
+	  if$
+	}
+     if$
+   }
+   while$
+ }
+ while$
+
+ #9999 res - 
+ int.to.str$
+}
+
 FUNCTION {presort}
-{ year.sort
+{ reverse.year
   "    "
   *
   month field.or.null
@@ -1222,8 +1281,8 @@ EXECUTE {begin.bib}
 
 EXECUTE {init.state.consts}
 
-%ITERATE {call.type$}
-REVERSE {call.type$}
+ITERATE {call.type$}
+%REVERSE {call.type$}
 
 FUNCTION {end.bib}
 { newline$
