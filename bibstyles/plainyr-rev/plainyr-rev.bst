@@ -1004,52 +1004,52 @@ FUNCTION {sort.format.month}
   t #1 #3 substring$ "Jan" =
   t #1 #3 substring$ "jan" =
   or
-  { "01" }
+  { "12" }
     { t #1 #3 substring$ "Feb" =
       t #1 #3 substring$ "feb" =
       or
-      { "02" }
+      { "11" }
       { t #1 #3 substring$ "Mar" =
         t #1 #3 substring$ "mar" =
         or
-        { "03" }
+        { "10" }
         { t #1 #3 substring$ "Apr" =
           t #1 #3 substring$ "apr" =
           or
-          { "04" }
+          { "09" }
           { t #1 #3 substring$ "May" =
             t #1 #3 substring$ "may" =
             or
-            { "05" }
+            { "08" }
             { t #1 #3 substring$ "Jun" =
               t #1 #3 substring$ "jun" =
               or
-              { "06" }
+              { "07" }
               { t #1 #3 substring$ "Jul" =
                 t #1 #3 substring$ "jul" =
                 or
-                { "07" }
+                { "06" }
                 { t #1 #3 substring$ "Aug" =
                   t #1 #3 substring$ "aug" =
                   or
-                  { "08" }
+                  { "05" }
                   { t #1 #3 substring$ "Sep" =
                     t #1 #3 substring$ "sep" =
                     or
-                    { "09" }
+                    { "04" }
                     { t #1 #3 substring$ "Oct" =
                       t #1 #3 substring$ "oct" =
                       or
-                      { "10" }
+                      { "03" }
                       { t #1 #3 substring$ "Nov" =
                         t #1 #3 substring$ "nov" =
                         or
-                        { "11" }
+                        { "02" }
                         { t #1 #3 substring$ "Dec" =
                           t #1 #3 substring$ "dec" =
                           or
-                          { "12" }
-                          { t } % No match
+                          { "01" }
+                          { "13" } % No month specified
                         if$
                         }
                       if$
