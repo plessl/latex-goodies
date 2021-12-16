@@ -1,0 +1,53 @@
+%% example for reverse chronological sorting of references using BibLaTeX and biber
+%%
+%% build PDF using these commands:
+%%
+%% pdflatex article
+%% biber article
+%% pdflatex article
+%% pdflatex article
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[backend=biber,style=numeric,minnames=8,maxnames=8,defernumbers=true,sorting=ydnt]{biblatex}
+\addbibresource{references.bib}
+
+% define different groups for references here
+\DeclareBibliographyCategory{conference}
+\DeclareBibliographyCategory{journal}
+
+% customize format how bib sections are rendered, here: regular \section{}
+\defbibheading{mybibsection}[\bibname]{%
+\section{#1}%
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Overall Top 3 Publications}
+
+%%% you can explicitly print the expanded citation for a paper using the fullcite command like below
+
+\begin{itemize}
+    \item{\fullcite{top1}}
+    \item{\fullcite{top2}}
+    \item{\fullcite{top3}}
+\end{itemize}
+
+\section{Complete Bibliography}
+
+% print bibliography for journal publications
+\addtocategory{journal}{j1,j2,j3,j4}
+\nocite{j1,j2,j3,j4}
+\printbibliography[category=journal,heading=mybibsection,title={Journal Publications}]
+
+% print bibliography for journal publications
+\addtocategory{conference}{c1,c2,c3,c4}
+\nocite{c1,c2,c3,c4}
+\printbibliography[category=conference,heading=mybibsection,title={Refereed Conference Publications}]
+
+
+\end{document}
